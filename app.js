@@ -86,18 +86,27 @@ app.use(function (req, res, next) {
 //     // res.render("profile", {stats:JSON.stringify(docs)});
 //     })
 //   })
-
-
-
-
+const loginRedirect = function (req, res, next) {
+  if (req.user) {
+    res.redirect('/');
+    return
+  } else {
+    next();
+  }
+}
+const requireLogin = function (req, res, next) {
+  if (req.user) {
+    next()
+  } else {
+    res.redirect('/login/');
+  }
+}
 
 app.get('/', function(req, res) {
     res.render("index");
 })
 app.get('/login/', function(req, res) {
-    res.render("login", {
-        messages: res.locals.getMessages()
-    });
+    res.render("login", {messages: res.locals.getMessages()});
 });
 app.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
@@ -112,7 +121,7 @@ app.post('/login', function(req, res, next) {
     })
   })(req, res, next);
 });
-app.get('/signup/', function(req, res) {
+app.get('/signup/', loginRedirect,  function(req, res) {
     res.render('signup');
 });
 app.post('/signup/', function(req, res) {
@@ -161,26 +170,15 @@ function normalizeMongooseErrors(errors) {
         errors[key].param = errors[key].path;
     });
 }
-
-
-const requireLogin = function (req, res, next) {
-  if (req.user) {
-    next()
-  } else {
-    res.redirect('/login/');
-  }
-}
+app.get('/signup/', loginRedirect, function(req, res) {
+    res.render('signup');
+});
 app.get('/logout', function(req, res) {
-  console.log(req.user)
   req.logout();
   req.session.destroy();
   res.redirect('/');
 });
-app.post("/logout", function (req, res) {
-  req.logout();
-  req.session.destroy();
-  res.redirect('/');
-});
+
 
 app.get("/:dynamic", function (req, res) {
   console.log("DYNAMIC TRIGGERED:")

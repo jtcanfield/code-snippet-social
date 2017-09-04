@@ -75,8 +75,6 @@ app.use(passport.session());
 app.use(flash());
 app.use(function (req, res, next) {
   res.locals.user = req.user;
-  console.log(req.user);
-  console.log(res.locals);
   next();
 })
 
@@ -178,13 +176,46 @@ app.get('/addasnip/', requireLogin, function(req, res) {
     res.render('addasnip');
 });
 app.post('/addasnip', function(req, res, next) {
-  MongoClient.connect(mongoURL, function (err, db) {
-    const users = db.collection("users");
-    users.updateOne({username:{$eq: user.username}}, {$set: {sessionID:req.sessionID}}, function (err, docs) {
-    req.logIn(user, function() {});//NEEDS TO BE USED IN ORDER TO USE REQ.USER
-    return res.redirect('/');
-    })
-  })
+  req.checkBody('title', 'Please Title your snip!').notEmpty();
+  req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
+  req.checkBody('language', 'What language is this?').notEmpty();
+  req.getValidationResult()
+      .then(function(result) {
+          if (!result.isEmpty()) {
+              return res.render("addasnip", {
+                  title: req.body.title,
+                  codesnippet: req.body.codesnippet,
+                  notes: req.body.notes,
+                  language: req.body.language,
+                  tags: req.body.tags,
+                  errors: result.mapped()
+              });
+          }
+          const user = new Snippet({
+            title: req.body.title,
+            codesnippet: req.body.codesnippet,
+            notes: req.body.notes,
+            language: req.body.language,
+            tags: req.body.tags,
+            user: req.user._id
+          })
+          const error = user.validateSync();
+          if (error) {
+              return res.render("addasnip", {
+                  errors: normalizeMongooseErrors(error.errors)
+              })
+          }
+          user.save(function(err) {
+              return res.redirect('/');
+          })
+      })
+  // MongoClient.connect(mongoURL, function (err, db) {
+  //   const users = db.collection("users");
+  //   users.updateOne({username:{$eq: user.username}}, {$set: {sessionID:req.sessionID}}, function (err, docs) {
+  //   req.logIn(user, function() {});//NEEDS TO BE USED IN ORDER TO USE REQ.USER
+  //   return res.redirect('/');
+  //   })
+  // })
 });
 app.get('/logout', function(req, res) {
   req.logout();

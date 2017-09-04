@@ -1,40 +1,39 @@
 <div class="container" style="margin-top: 2rem">
   <div class="row">
     <div class="col">
-      <h1>Sign Up!</h1>
-      {{#messages.error}}
-          <div class="alert alert-danger" role="alert">
-            {{.}}
-          </div>
-      {{/messages.error}}
+      <h1>Add a Snippet!</h1>
       <form method="POST" action="/addasnip/">
-        <div class="form-group{{#errors.username}} has-danger{{/errors.username}}">
-          <label class="form-control-label" for="username-input">Username</label><br>
-          <input type="text" id="username-input" name="username" class="form-control" value="{{username}}" />
-          {{#errors.username}}
+        <div class="form-group{{#errors.title}} has-danger{{/errors.title}}">
+          <label class="form-control-label" for="title-input">Title:</label><br>
+          <input type="text" id="title-input" name="title" class="form-control" value="{{title}}" />
+          {{#errors.title}}
             <div class="form-control-feedback">{{msg}}</div>
-          {{/errors.username}}
+          {{/errors.title}}
         </div><br>
-        <div class="form-group{{#errors.password}} has-danger{{/errors.password}}">
-          <label class="form-control-label" for="password-input">Password</label><br>
-          <input type="password" id="password-input" name="password" class="form-control" />
-          {{#errors.password}}
+        <div class="form-group{{#errors.codesnippet}} has-danger{{/errors.codesnippet}}">
+          <label class="form-control-label" for="codesnippet-input">Snippet Body:</label><br>
+          <input type="textarea" id="codesnippet-input" name="codesnippet" class="form-control" value="{{codesnippet}}" />
+          {{#errors.codesnippet}}
             <div class="form-control-feedback">{{msg}}</div>
-          {{/errors.password}}
+          {{/errors.codesnippet}}
         </div><br>
-        <div class="form-group{{#errors.password}} has-danger{{/errors.password}}"><br>
-          <label class="form-control-label" for="password-input">Type Password Again</label><br>
-          <input type="password" id="password-input" name="password2" class="form-control" />
-          {{#errors.password}}
-            <div class="form-control-feedback">{{msg}}</div>
-          {{/errors.password}}
+        <div class="form-group{{#errors.notes}} has-danger{{/errors.notes}}"><br>
+          <label class="form-control-label" for="notes-input">Notes:</label><br>
+          <input type="textarea" id="notes-input" name="notes" class="form-control" value="{{notes}}" />
         </div><br>
-        <div class="form-group{{#errors.email}} has-danger{{/errors.email}}"><br>
-          <label class="form-control-label" for="password-input">Email</label><br>
-          <input type="email" id="password-input" name="email" class="form-control" />
-          {{#errors.email}}
+        <div class="form-group{{#errors.language}} has-danger{{/errors.language}}"><br>
+          <label class="form-control-label" for="language-input">Language:</label><br>
+          <input type="text" id="language-input" name="language" class="form-control" value="{{language}}" />
+          {{#errors.language}}
             <div class="form-control-feedback">{{msg}}</div>
-          {{/errors.email}}
+          {{/errors.language}}
+        </div><br>
+        <div class="form-group{{#errors.tags}} has-danger{{/errors.tags}}"><br>
+          <label class="form-control-label" for="tags-input">tags:</label><br>
+          <input type="text" id="tags-input" name="tags" class="form-control" value="{{tags}}" />
+          {{#errors.tags}}
+            <div class="form-control-feedback">{{msg}}</div>
+          {{/errors.tags}}
         </div><br>
         <button type="submit" class="btn btn-primary">Register</button>
       </form>

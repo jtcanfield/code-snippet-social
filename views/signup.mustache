@@ -1,41 +1,43 @@
-<!DOCTYPE html>
- <html>
- 	<head>
- 		<meta charset="utf-8">
- 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
- 		<title>Sign Up</title>
- 		<meta name="description" content=" " />
- 		<meta name="author" content=" " />
- 		<meta name="HandheldFriendly" content="true" />
- 		<meta name="MobileOptimized" content="320" />
- 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" type="text/css" href="/style.css">
- 	</head>
- 	<body>
-    <div id="topbarwrapper">
-      <form action="/statisticsredirect" method="post"><button type="submit">Statistics</button></form>
-      <form action="/loginredirect" method="post"><button type="submit">Login</button></form>
-      <form action="/signupredirect" method="post"><button type="submit">Sign Up</button></form>
-    </div>
-    <div class="body" id="signupbody">
+<div class="container" style="margin-top: 2rem">
+  <div class="row">
+    <div class="col">
       <h1>Sign Up!</h1>
-      <p>Items marked with * are required</p>
-      <form action="/signup" method="post">
-        <p>Username*:</p>
-        <input type="text" name="username"required>
-        <p>Password*:</p>
-        <input type="password" name="password1"required>
-        <p>Retype Password*:</p>
-        <input type="password" name="password2"required>
-        <p>Valid Email:</p>
-        <input type="email" name="email">
-        <br><br>
-        <button type="submit">Sign Up</button>
-        <p class="error">{{status}}</p>
+      {{#messages.error}}
+          <div class="alert alert-danger" role="alert">
+            {{.}}
+          </div>
+      {{/messages.error}}
+      <form method="POST" action="/signup/">
+        <div class="form-group{{#errors.username}} has-danger{{/errors.username}}">
+          <label class="form-control-label" for="username-input">Username</label><br>
+          <input type="text" id="username-input" name="username" class="form-control" value="{{username}}" />
+          {{#errors.username}}
+            <div class="form-control-feedback">{{msg}}</div>
+          {{/errors.username}}
+        </div><br>
+        <div class="form-group{{#errors.password}} has-danger{{/errors.password}}">
+          <label class="form-control-label" for="password-input">Password</label><br>
+          <input type="password" id="password-input" name="password" class="form-control" />
+          {{#errors.password}}
+            <div class="form-control-feedback">{{msg}}</div>
+          {{/errors.password}}
+        </div><br>
+        <div class="form-group{{#errors.password}} has-danger{{/errors.password}}"><br>
+          <label class="form-control-label" for="password-input">Type Password Again</label><br>
+          <input type="password" id="password-input" name="password2" class="form-control" />
+          {{#errors.password}}
+            <div class="form-control-feedback">{{msg}}</div>
+          {{/errors.password}}
+        </div><br>
+        <div class="form-group{{#errors.email}} has-danger{{/errors.email}}"><br>
+          <label class="form-control-label" for="password-input">Email</label><br>
+          <input type="email" id="password-input" name="email" class="form-control" />
+          {{#errors.email}}
+            <div class="form-control-feedback">{{msg}}</div>
+          {{/errors.email}}
+        </div><br>
+        <button type="submit" class="btn btn-primary">Register</button>
       </form>
     </div>
- 	  <script type="text/javascript" src="main.js"></script>
- 	</body>
- </html>
+  </div>
+</div>

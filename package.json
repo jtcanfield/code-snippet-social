@@ -28,6 +28,7 @@
     "express": "^4.15.4",
     "express-flash-messages": "^0.1.1",
     "express-session": "^1.15.5",
+    "express-sessions": "^1.0.6",
     "express-validator": "^4.1.0",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.9",

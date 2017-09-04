@@ -196,7 +196,7 @@ app.post('/addasnip', function(req, res, next) {
             codesnippet: req.body.codesnippet,
             notes: req.body.notes,
             language: req.body.language,
-            tags: req.body.tags,
+            tags: req.body.tags,//Need to seperate tags into array
             user: req.user._id
           })
           const error = user.validateSync();

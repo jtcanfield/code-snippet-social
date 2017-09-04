@@ -12,6 +12,7 @@ const fs = require('fs'),
     bcrypt = require('bcryptjs'),
     models = require("./models"),
     expressValidator = require('express-validator'),
+    Snippet = models.Snippet,
     User = models.User;
 const app = express();
 const MongoClient = mongodb.MongoClient;
@@ -26,23 +27,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
 app.use(expressValidator());
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
-    store: new(require('express-sessions'))({
-        storage: 'mongodb',
-        instance: mongoose, // optional
-        host: 'localhost', // optional
-        port: 27017, // optional
-        db: 'test', // optional
-        collection: 'sessions', // optional
-        expire: 86400 // optional
-    })
-}));passport.use(new LocalStrategy(
+app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 60000, httpOnly: false}}));
+// app.use(session({
+//     secret: 'keyboard cat',
+//     resave: false,
+//     saveUninitialized: false,
+//     store: new(require('express-sessions'))({
+//         storage: 'mongodb',
+//         instance: mongoose, // optional
+//         host: 'localhost', // optional
+//         port: 27017, // optional
+//         db: 'test', // optional
+//         collection: 'sessions', // optional
+//         expire: 86400 // optional
+//     })
+// }));
+passport.use(new LocalStrategy(
     function(username, password, done) {
         User.authenticate(username, password, function(err, user) {
           //HERE, USER is the entire user object
@@ -70,13 +70,22 @@ passport.deserializeUser(function(id, done) {
         done(err, userobj);//FIND OUT WHERE THIS RETURNS TO
     });
 });
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 app.use(function (req, res, next) {
-  console.log(res.locals);
   res.locals.user = req.user;
+  console.log(res.locals);
   next();
 })
 
-
+// MongoClient.connect(mongoURL, function (err, db) {
+//     const uzerlist = db.collection("users");
+//     uzerlist.find({ username: { $eq: "jtdude100" } }).toArray(function (err, docs) {
+//       console.log(docs)
+//     // res.render("profile", {stats:JSON.stringify(docs)});
+//     })
+//   })
 
 
 
@@ -90,12 +99,19 @@ app.get('/login/', function(req, res) {
         messages: res.locals.getMessages()
     });
 });
-app.post('/login/', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login/',
-    failureFlash: true
-}))
-
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {  return res.render("login", {status:err}) }
+    if (!user) { return res.redirect('/login');  }
+    MongoClient.connect(mongoURL, function (err, db) {
+      const users = db.collection("users");
+      users.updateOne({username:{$eq: user.username}}, {$set: {sessionID:req.sessionID}}, function (err, docs) {
+      req.logIn(user, function() {});//NEEDS TO BE USED IN ORDER TO USE REQ.USER
+      return res.redirect('/');
+      })
+    })
+  })(req, res, next);
+});
 app.get('/signup/', function(req, res) {
     res.render('signup');
 });
@@ -128,7 +144,6 @@ app.post('/signup/', function(req, res) {
             }
             user.save(function(err) {
                 if (err) {
-                  console.log("The Train Should Stop Here");
                     return res.render("signup", {
                         messages: {
                             error: ["That username is already taken."]
@@ -147,11 +162,6 @@ function normalizeMongooseErrors(errors) {
     });
 }
 
-app.get('/logout/', function(req, res) {
-  req.logout();
-  req.session.destroy();
-  res.redirect('back');
-});
 
 const requireLogin = function (req, res, next) {
   if (req.user) {
@@ -160,7 +170,17 @@ const requireLogin = function (req, res, next) {
     res.redirect('/login/');
   }
 }
-
+app.get('/logout', function(req, res) {
+  console.log(req.user)
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
+});
+app.post("/logout", function (req, res) {
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
+});
 
 app.get("/:dynamic", function (req, res) {
   console.log("DYNAMIC TRIGGERED:")

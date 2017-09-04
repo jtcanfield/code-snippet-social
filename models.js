@@ -47,6 +47,34 @@ userSchema.statics.authenticate = function(username, password, done) {
 
 const User = mongoose.model('User', userSchema);
 
+
+const snippetSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    codesnippet: {
+        type: String,
+        required: true
+    },
+    notes: {
+        type: String
+    },
+    language: {
+        type: String,
+        required: true
+    },
+    tags: {
+        type: Array
+    },
+    user: {
+        type: String,
+        required: true
+    }
+});
+const Snippet = mongoose.model('Snippet', snippetSchema);
+
 module.exports = {
-    User: User
+    User: User,
+    Snippet: Snippet
 };

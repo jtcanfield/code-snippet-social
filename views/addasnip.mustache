@@ -12,14 +12,14 @@
         </div><br>
         <div class="form-group{{#errors.codesnippet}} has-danger{{/errors.codesnippet}}">
           <label class="form-control-label" for="codesnippet-input">Snippet Body:</label><br>
-          <input type="textarea" id="codesnippet-input" name="codesnippet" class="form-control" value="{{codesnippet}}" />
+          <textarea type="textarea" id="codesnippet-input" name="codesnippet" class="form-control" value="{{codesnippet}}" /></textarea>
           {{#errors.codesnippet}}
             <div class="form-control-feedback">{{msg}}</div>
           {{/errors.codesnippet}}
         </div><br>
         <div class="form-group{{#errors.notes}} has-danger{{/errors.notes}}"><br>
           <label class="form-control-label" for="notes-input">Notes:</label><br>
-          <input type="textarea" id="notes-input" name="notes" class="form-control" value="{{notes}}" />
+          <textarea type="textarea" id="notes-input" name="notes" class="form-control" value="{{notes}}" /></textarea>
         </div><br>
         <div class="form-group{{#errors.language}} has-danger{{/errors.language}}"><br>
           <label class="form-control-label" for="language-input">Language:</label><br>

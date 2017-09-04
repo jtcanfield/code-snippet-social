@@ -227,7 +227,7 @@ app.get('/logout', function(req, res) {
 app.get("/:dynamic", function (req, res) {
   console.log("DYNAMIC TRIGGERED:")
   console.log(req.params.dynamic);
-  res.redirect('/');
+  res.render('404');
 });
 process.env.PORT || 5000
 app.listen(process.env.PORT || 5000, function () {

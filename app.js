@@ -75,6 +75,7 @@ app.use(passport.session());
 app.use(flash());
 app.use(function (req, res, next) {
   res.locals.user = req.user;
+  console.log(req.user);
   console.log(res.locals);
   next();
 })
@@ -172,6 +173,18 @@ function normalizeMongooseErrors(errors) {
 }
 app.get('/signup/', loginRedirect, function(req, res) {
     res.render('signup');
+});
+app.get('/addasnip/', requireLogin, function(req, res) {
+    res.render('addasnip');
+});
+app.post('/addasnip', function(req, res, next) {
+  MongoClient.connect(mongoURL, function (err, db) {
+    const users = db.collection("users");
+    users.updateOne({username:{$eq: user.username}}, {$set: {sessionID:req.sessionID}}, function (err, docs) {
+    req.logIn(user, function() {});//NEEDS TO BE USED IN ORDER TO USE REQ.USER
+    return res.redirect('/');
+    })
+  })
 });
 app.get('/logout', function(req, res) {
   req.logout();

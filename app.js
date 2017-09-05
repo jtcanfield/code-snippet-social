@@ -223,7 +223,13 @@ app.get('/logout', function(req, res) {
   req.session.destroy();
   res.redirect('/');
 });
-
+app.get('/profile', requireLogin, function(req, res) {
+  res.redirect('/profile'+req.user.username);
+});
+app.get('/profile:dynamic', function(req, res) {
+  
+  res.render('/profile');
+});
 
 app.get("/:dynamic", function (req, res) {
   console.log("DYNAMIC TRIGGERED: " + req.params.dynamic)

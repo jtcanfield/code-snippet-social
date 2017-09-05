@@ -31,18 +31,6 @@
           </div>
           <div id="profilebody" class="bodypage">
             <h1>Profile of {{profilename}}</h2>
-            {{#user}}
-              <h1>
-                You are logged in as {{username}}.
-                <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a></small>
-              </h1>
-            {{/user}}
-            {{^user}}
-            <h1>
-              You are not logged in.
-              <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
-            </h1>
-            {{/user}}
             <div id="profilesnippets">
             {{#snippetlist}}
               {{.}}

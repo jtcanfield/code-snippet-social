@@ -1,4 +1,9 @@
-//Statistics Page
+document.addEventListener("DOMContentLoaded", function() {
+
+
+console.log("IAMALOG")
+
+//Front Page
 var fullstats = document.getElementById("fullstatistics");
 if (fullstats !== null){
   var jsonObject = JSON.parse(fullstats.textContent);
@@ -17,30 +22,31 @@ if (fullstats !== null){
   })
 }
 //Profile Page
-var profilepage = document.getElementById("profilepageinfo");
+var profilepage = document.getElementById("profilesnippets");
 if (profilepage !== null){
   var jsonObjectarray = JSON.parse(profilepage.textContent);
   var jsonObject = jsonObjectarray[0];
+  console.log(jsonObject)
   profilepage.innerHTML = "";
-  var newliteral = document.createElement("div");
-  newliteral.setAttribute("class", "playerstats");
-  let holder = `
-    <h1>${jsonObject.username}</h1>
-    <div>
-      <span>Games: ${jsonObject.games}</span><span>Wins: ${jsonObject.wins}</span><span>Losses: ${jsonObject.losses}</span>
-    </div>
-    <p>Avg Word Length: ${(jsonObject.wordlengths.reduce((a,b) => a+b, 0))/jsonObject.wordlengths.length}</p>
-    <p>Avg Time: ${timecalc((jsonObject.times.reduce((a,b) => a+b, 0))/jsonObject.times.length)}</p>
-    <h3>Game History:</h3>
-  `;
-  newliteral.innerHTML = holder;
-  for (let i = 0; i < jsonObject.words.length; i++){
-    let historyholder = `
-      <div>
-        <span>${jsonObject.gamestatus[i]}</span><span>Word: ${jsonObject.words[i]}</span><span>Time Taken: ${timecalc(jsonObject.times[i])}</span>
-      </div>
-    `;
-    newliteral.innerHTML += historyholder;
-  }
-  profilepage.appendChild(newliteral);
+  // var newliteral = document.createElement("div");
+  // newliteral.setAttribute("class", "personalsnips");
+  // let holder = `
+  //   <h1>${jsonObject.username}</h1>
+  //   <div>
+  //     <span>Games: ${jsonObject.games}</span><span>Wins: ${jsonObject.wins}</span><span>Losses: ${jsonObject.losses}</span>
+  //   </div>
+  //   <p>Avg Word Length: ${(jsonObject.wordlengths.reduce((a,b) => a+b, 0))/jsonObject.wordlengths.length}</p>
+  //   <p>Avg Time: ${timecalc((jsonObject.times.reduce((a,b) => a+b, 0))/jsonObject.times.length)}</p>
+  //   <h3>Game History:</h3>
+  // `;
+  // newliteral.innerHTML = holder;
+  // profilepage.appendChild(newliteral);
 }
+
+
+
+
+
+
+
+});

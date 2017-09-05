@@ -43,14 +43,14 @@
               </div><br>
               <div class="form-group{{#errors.codesnippet}} has-danger{{/errors.codesnippet}}">
                 <label class="form-control-label" for="codesnippet-input">Snippet Body:</label><br>
-                <textarea type="textarea" id="codesnippet-input" name="codesnippet" class="form-control" value="{{codesnippet}}" /></textarea>
+                <textarea type="textarea" id="codesnippet-input" name="codesnippet" class="form-control"/>{{codesnippet}}</textarea>
                 {{#errors.codesnippet}}
                   <div class="form-control-feedback">{{msg}}</div>
                 {{/errors.codesnippet}}
               </div><br>
               <div class="form-group{{#errors.notes}} has-danger{{/errors.notes}}"><br>
                 <label class="form-control-label" for="notes-input">Notes:</label><br>
-                <textarea type="textarea" id="notes-input" name="notes" class="form-control" value="{{notes}}" /></textarea>
+                <textarea type="textarea" id="notes-input" name="notes" class="form-control"/>{{notes}}</textarea>
               </div><br>
               <div class="form-group{{#errors.language}} has-danger{{/errors.language}}"><br>
                 <label class="form-control-label" for="language-input">Language:</label><br>
@@ -70,9 +70,8 @@
               <div class="form-group{{#errors.tags}} has-danger{{/errors.tags}}"><br>
                 <label class="form-control-label" for="tags-input">Tags<br>(tags must be seperated by commas,no spaces. only letters,numbers,and dashes (-) allowed): </label><br>
                 <input pattern="^[0-9a-zA-Z,-]*$" type="text" id="tags-input" name="tags" class="form-control" value="{{tags}}" />
-                <!-- <button id="addatagtothenewsnippet">Add Tag</button> -->
               </div><br>
-              <button type="submit" class="btn btn-primary">Add a Snip!</button>
+              <button type="submit" class="btn btn-primary">Edit Snip</button>
             </form>
           </div>
         </div>

@@ -227,8 +227,16 @@ app.get('/profile', requireLogin, function(req, res) {
   res.redirect('/profile'+req.user.username);
 });
 app.get('/profile:dynamic', function(req, res) {
-  
-  res.render('/profile');
+  MongoClient.connect(mongoURL, function (err, db) {
+    const users = db.collection("users");
+    const snippets = db.collection("snippets");
+    users.find({username:{$eq: req.params.dynamic}}).toArray(function (err, userdocs) {
+      snippets.find({user:{$eq: String(userdocs[0]._id)}}).toArray(function (err, snippetdocs) {
+        console.log(snippetdocs);
+        return res.render('profile');
+      })
+    })
+  })
 });
 
 app.get("/:dynamic", function (req, res) {

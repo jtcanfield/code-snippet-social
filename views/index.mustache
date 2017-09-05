@@ -4,13 +4,13 @@
       <h1>Welcome to Snip!</h2>
       {{#user}}
         <h1>
-          You are logged in as {{username}}.
-          <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a></small>
+          You are logged in as {{username}}.<br>
+          <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a> | <a href="/profile/">View Profile</a></small>
         </h1>
       {{/user}}
       {{^user}}
       <h1>
-        You are not logged in.
+        You are not logged in.<br>
         <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
       </h1>
       {{/user}}

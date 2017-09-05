@@ -115,8 +115,8 @@ app.get('/login/', function(req, res) {
 });
 app.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    if (err) {  return res.render("login", {status:info.message}) }
-    if (!user) { return res.render("login",{status:info.message});  }
+    if (err) {   return res.render("login",{status:info.message})}
+    if (!user) { return res.render("login",{status:info.message})}
     MongoClient.connect(mongoURL, function (err, db) {
       const users = db.collection("users");
       users.updateOne({username:{$eq: user.username}}, {$set: {sessionID:req.sessionID}}, function (err, docs) {
@@ -181,7 +181,7 @@ app.get('/signup/', loginRedirect, function(req, res) {
 app.get('/addasnip/', requireLogin, function(req, res) {
     res.render('addasnip');
 });
-app.post('/addasnip', function(req, res, next) {
+app.post('/addasnip', requireLogin, checkLogin, function(req, res, next) {
   req.checkBody('title', 'Please Title your snip!').notEmpty();
   req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
   req.checkBody('language', 'What language is this?').notEmpty();
@@ -204,7 +204,7 @@ app.post('/addasnip', function(req, res, next) {
             notes: req.body.notes,
             language: req.body.language,
             privacy: req.body.privacy,
-            tags: req.body.tags,
+            tags: req.body.tags.split(","),
             user: req.user._id
           })
           const error = user.validateSync();
@@ -259,6 +259,43 @@ app.get('/edit:dynamic', requireLogin, checkLogin, function(req, res) {
         tags: snippetdocs.tags
     });
   })
+});
+app.post('/editasnip', requireLogin, checkLogin, function(req, res, next) {
+  req.checkBody('title', 'Please Title your snip!').notEmpty();
+  req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
+  req.checkBody('language', 'What language is this?').notEmpty();
+  req.getValidationResult()
+      .then(function(result) {
+          if (!result.isEmpty()) {
+              return res.render("addasnip", {
+                  title: req.body.title,
+                  codesnippet: req.body.codesnippet,
+                  notes: req.body.notes,
+                  language: req.body.language,
+                  privacy: req.body.privacy,
+                  tags: req.body.tags,
+                  errors: result.mapped()
+              });
+          }
+          const user = new Snippet({
+            title: req.body.title,
+            codesnippet: req.body.codesnippet,
+            notes: req.body.notes,
+            language: req.body.language,
+            privacy: req.body.privacy,
+            tags: req.body.tags.split(","),
+            user: req.user._id
+          })
+          const error = user.validateSync();
+          if (error) {
+              return res.render("addasnip", {
+                  errors: normalizeMongooseErrors(error.errors)
+              })
+          }
+          user.save(function(err) {
+              return res.redirect('/profile');
+          })
+      })
 });
 
 app.get("/:dynamic", function (req, res) {

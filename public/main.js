@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-
+  var string = "99,98,97,96";
+  console.log(string.split(","))
 
 
 //Front Page

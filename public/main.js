@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-  var string = "99,98,97,96";
-  console.log(string.split(","))
+
+
 
 
 //Front Page
@@ -47,7 +47,6 @@ if (profilepage !== null){
 var specificsnippets = document.getElementById("specificsnippets");
 if (specificsnippets !== null){
   var obj = JSON.parse(specificsnippets.textContent);
-  console.log(obj)
   specificsnippets.innerHTML = "";
   var newliteral = document.createElement("div");
   newliteral.setAttribute("class", "personalsnips");

@@ -256,7 +256,7 @@ app.get('/edit:dynamic', requireLogin, checkLogin, function(req, res) {
         notes: snippetdocs.notes,
         language: snippetdocs.language,
         privacy: snippetdocs.privacy,
-        tags: snippetdocs.tags
+        tags: snippetdocs.tags.join()
     });
   })
 });
@@ -277,15 +277,15 @@ app.post('/editasnip', requireLogin, checkLogin, function(req, res, next) {
                   errors: result.mapped()
               });
           }
-          const user = new Snippet({
-            title: req.body.title,
-            codesnippet: req.body.codesnippet,
-            notes: req.body.notes,
-            language: req.body.language,
-            privacy: req.body.privacy,
-            tags: req.body.tags.split(","),
-            user: req.user._id
-          })
+          // const user = new Snippet({
+          //   title: req.body.title,
+          //   codesnippet: req.body.codesnippet,
+          //   notes: req.body.notes,
+          //   language: req.body.language,
+          //   privacy: req.body.privacy,
+          //   tags: req.body.tags.split(","),
+          //   user: req.user._id
+          // })
           const error = user.validateSync();
           if (error) {
               return res.render("addasnip", {

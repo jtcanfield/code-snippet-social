@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
 
-console.log("IAMALOG")
+
 
 //Front Page
 var fullstats = document.getElementById("fullstatistics");
@@ -24,12 +24,14 @@ if (fullstats !== null){
 //Profile Page
 var profilepage = document.getElementById("profilesnippets");
 if (profilepage !== null){
-  var jsonObjectarray = JSON.parse(profilepage.textContent);
-  var jsonObject = jsonObjectarray[0];
-  console.log(jsonObject)
+  var arrayOfSnips = JSON.parse(profilepage.textContent);
   profilepage.innerHTML = "";
-  // var newliteral = document.createElement("div");
-  // newliteral.setAttribute("class", "personalsnips");
+  var newliteral = document.createElement("div");
+  newliteral.setAttribute("class", "personalsnips");
+  arrayOfSnips.map((obj, index) => {
+    console.log(index)
+    console.log(obj)
+  })
   // let holder = `
   //   <h1>${jsonObject.username}</h1>
   //   <div>

@@ -45,26 +45,22 @@ if (profilepage !== null){
 //Single Snippet Page
 var specificsnippets = document.getElementById("specificsnippets");
 if (specificsnippets !== null){
-  console.log(specificsnippets.textContent)
-  var stringified = JSON.stringify(specificsnippets.textContent);
-  var parsedsnippet = JSON.parse(stringified);
-  console.log(parsedsnippet)
+  var obj = JSON.parse(specificsnippets.textContent);
+  console.log(obj)
   specificsnippets.innerHTML = "";
   var newliteral = document.createElement("div");
   newliteral.setAttribute("class", "personalsnips");
-  // arrayOfSnips.map((obj, index) => {
-  //   let holder = `
-  //     <a href="/snippetview${obj._id}/"><h2>Title: ${obj.title}</h2></a>
-  //     <h3>Notes: ${obj.notes}</h3>
-  //     <h4>Snippet: ${obj.codesnippet}</h4>
-  //     <h5>Language: ${obj.language}</h5>
-  //     <h5>Created: ${obj.createdAt}</h5>
-  //     <h5>Updated: ${obj.updatedAt}</h5>
-  //     <h5>Tags: ${obj.tags}</h5>
-  //   `;
-  //   newliteral.innerHTML += holder;
-  // })
-  // specificsnippets.appendChild(newliteral);
+  let holder = `
+    <a href="/snippetview${obj._id}/"><h2>Title: ${obj.title}</h2></a>
+    <h3>Notes: ${obj.notes}</h3>
+    <h4>Snippet: ${obj.codesnippet}</h4>
+    <h5>Language: ${obj.language}</h5>
+    <h5>Created: ${obj.createdAt}</h5>
+    <h5>Updated: ${obj.updatedAt}</h5>
+    <h5>Tags: ${obj.tags}</h5>
+  `;
+  newliteral.innerHTML += holder;
+  specificsnippets.appendChild(newliteral);
 }
 
 

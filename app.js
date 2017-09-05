@@ -285,7 +285,7 @@ app.post('/editasnip', requireLogin, checkLogin, function(req, res, next) {
           //   privacy: req.body.privacy,
           //   tags: req.body.tags.split(","),
           //   user: req.user._id
-          // })
+          // }) NEED TO UPDATE HERE. ALSO NEEDS TO RECHECK USER _ID AND SNIPPET _ID
           const error = user.validateSync();
           if (error) {
               return res.render("addasnip", {

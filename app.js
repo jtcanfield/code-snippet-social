@@ -238,13 +238,9 @@ app.get('/profile:dynamic', function(req, res) {
   })
 });
 app.get('/snippetview:dynamic', function(req, res) {
-  MongoClient.connect(mongoURL, function (err, db) {
-    const users = db.collection("users");
-    const snippets = db.collection("snippets");
-    users.find({username:{$eq: req.params.dynamic}}).toArray(function (err, userdocs) {
-      snippets.find({user:{$eq: String(userdocs[0]._id)}}).toArray(function (err, snippetdocs) {
-        return res.render('profile', {profilename:userdocs[0].username, snippetlist:JSON.stringify(snippetdocs)});
-      })
+  Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
+    User.findById(snippetdocs.user, function (err, userdocs) {
+      return res.render('profile', {profilename:userdocs.username, snippetlist:JSON.stringify(snippetdocs)});
     })
   })
 });

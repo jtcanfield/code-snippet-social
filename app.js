@@ -240,7 +240,7 @@ app.get('/profile:dynamic', function(req, res) {
 app.get('/snippetview:dynamic', function(req, res) {
   Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
     User.findById(snippetdocs.user, function (err, userdocs) {
-      return res.render('profile', {username:userdocs.username, snippet:JSON.stringify(snippetdocs)});
+      return res.render('profile', {author:userdocs.username, snippet:JSON.stringify(snippetdocs)});
     })
   })
 });

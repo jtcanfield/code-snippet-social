@@ -94,6 +94,18 @@ const loginRedirect = function (req, res, next) {
 }
 const requireLogin = function (req, res, next) {
   if (req.user) {
+    User.findById(req.user._id, function (err, userdocs) {
+      console.log(userdocs.sessionID);
+    })
+    console.log(req.user.sessionID);
+    console.log(req.sessionID);
+    next()
+  } else {
+    res.redirect('/login/');
+  }
+}
+const checkLogin = function (req, res, next) {
+  if (req.user) {
     next()
   } else {
     res.redirect('/login/');
@@ -238,6 +250,17 @@ app.get('/snippetview:dynamic', function(req, res) {
       } else {
         return res.render('snippetview', {author:userdocs.username, snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
       }
+    })
+  })
+});
+app.get('/edit:dynamic', requireLogin, function(req, res) {
+  Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
+    User.findById(snippetdocs.user, function (err, userdocs) {
+      // passport.authenticate('local', function(err, user, info) {
+      //   if (err) {  return res.redirect("/login"); }
+      //   if (!user) { return res.redirect("/login");  }
+      //   return res.redirect('/profile');
+      // })
     })
   })
 });

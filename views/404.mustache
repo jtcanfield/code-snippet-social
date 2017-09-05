@@ -17,7 +17,21 @@
     <div class="container" style="margin-top: 2rem">
       <div class="row">
         <div class="col">
-          <h1>Whups! Thats a 404</h1>
+          <div id="topbarwrapper">
+            <h1>
+            {{#user}}
+              <span>You are logged in as {{username}}</span>
+              <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a> | <a href="/profile/">View Profile</a></small>
+            {{/user}}
+            {{^user}}
+              <span>You are not logged in</span>
+              <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
+            {{/user}}
+            </h1>
+          </div>
+          <div id="404body" class="bodypage">
+            <h1>Whups! Thats a 404</h1>
+          </div>
         </div>
       </div>
     </div>

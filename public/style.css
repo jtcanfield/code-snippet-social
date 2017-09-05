@@ -13,6 +13,7 @@ h1, h2{
     to {opacity: 0;}
 }
 #topbarwrapper{
+  font-size: 1em;
   position: fixed;
   top: 0;
   left: 0;

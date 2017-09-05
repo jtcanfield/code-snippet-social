@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-});
+},{timestamps: true});
 
 userSchema.virtual('password')
     .get(function() {
@@ -75,7 +75,7 @@ const snippetSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-});
+},{timestamps: true});
 const Snippet = mongoose.model('Snippet', snippetSchema);
 
 module.exports = {

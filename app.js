@@ -42,6 +42,7 @@ app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 600000, ht
 //         expire: 86400 // optional
 //     })
 // }));
+console.log(Date())
 passport.use(new LocalStrategy(
     function(username, password, done) {
         User.authenticate(username, password, function(err, user) {

@@ -28,6 +28,14 @@
             <div class="form-control-feedback">{{msg}}</div>
           {{/errors.language}}
         </div><br>
+        <div class="form-group{{#errors.privacy}} has-danger{{/errors.privacy}}"><br>
+          <select name="privacy">
+            <option value="public">Public</option>
+            <option value="friends">Only Friends</option>
+            <option value="private">Private</option>
+          </select>
+          <input type="text" id="language-input" name="language" class="form-control" value="{{language}}" />
+        </div><br>
         <div class="form-group{{#errors.tags}} has-danger{{/errors.tags}}"><br>
           <label class="form-control-label" for="tags-input">tags:</label><br>
           <input type="text" id="tags-input" name="tags" class="form-control" value="{{tags}}" />

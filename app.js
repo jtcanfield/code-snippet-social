@@ -75,6 +75,9 @@ app.use(passport.session());
 app.use(flash());
 app.use(function (req, res, next) {
   res.locals.user = req.user;
+  if (res.locals.user !== undefined){
+      console.log(res.locals.user._id);
+  }
   next();
 })
 
@@ -187,6 +190,7 @@ app.post('/addasnip', function(req, res, next) {
                   codesnippet: req.body.codesnippet,
                   notes: req.body.notes,
                   language: req.body.language,
+                  privacy: req.body.privacy,
                   tags: req.body.tags,
                   errors: result.mapped()
               });
@@ -196,6 +200,7 @@ app.post('/addasnip', function(req, res, next) {
             codesnippet: req.body.codesnippet,
             notes: req.body.notes,
             language: req.body.language,
+            privacy: req.body.privacy,
             tags: req.body.tags,//Need to seperate tags into array
             user: req.user._id
           })

@@ -233,7 +233,7 @@ app.get('/profile:dynamic', function(req, res) {
     users.find({username:{$eq: req.params.dynamic}}).toArray(function (err, userdocs) {
       snippets.find({user:{$eq: String(userdocs[0]._id)}}).toArray(function (err, snippetdocs) {
         console.log(snippetdocs);
-        return res.render('profile');
+        return res.render('profile', {profilename:userdocs[0].username});
       })
     })
   })

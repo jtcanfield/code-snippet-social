@@ -53,8 +53,8 @@
               </select>
             </div><br>
             <div class="form-group{{#errors.tags}} has-danger{{/errors.tags}}"><br>
-              <label class="form-control-label" for="tags-input">tags:</label><br>
-              <input pattern="^[a-zA-Z,]*$" type="text" id="tags-input" name="tags" class="form-control" value="{{tags}}" />
+              <label class="form-control-label" for="tags-input">Tags<br>(tags must be seperated by commas,no spaces. only letters,numbers,and dashes (-) allowed): </label><br>
+              <input pattern="^[0-9a-zA-Z,-]*$" type="text" id="tags-input" name="tags" class="form-control" value="{{tags}}" />
               <!-- <button id="addatagtothenewsnippet">Add Tag</button> -->
             </div><br>
             <button type="submit" class="btn btn-primary">Add a Snip!</button>

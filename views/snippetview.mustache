@@ -32,9 +32,9 @@
           <div id="snippetviewbody" class="bodypage">
             <h1>{{snippet.title}} by {{author}}</h1>
             <div id="specificsnippets">
-            {{#snippet}}
+            {{#snippetJSON}}
               {{.}}
-            {{/snippet}}
+            {{/snippetJSON}}
           </div><br>
             <a href="/profile{{author}}/">Go to {{author}}'s page</a>
           </div>

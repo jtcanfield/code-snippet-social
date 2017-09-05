@@ -115,8 +115,8 @@ app.get('/login/', function(req, res) {
 });
 app.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    if (err) {  return res.render("login", {status:err}) }
-    if (!user) { return res.redirect('/login');  }
+    if (err) {  return res.render("login", {status:info.message}) }
+    if (!user) { return res.render("login",{status:info.message});  }
     MongoClient.connect(mongoURL, function (err, db) {
       const users = db.collection("users");
       users.updateOne({username:{$eq: user.username}}, {$set: {sessionID:req.sessionID}}, function (err, docs) {

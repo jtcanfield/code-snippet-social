@@ -31,11 +31,6 @@
           </div>
           <div id="loginbody" class="bodypage">
             <h1>Login</h1>
-            {{#messages.error}}
-                <div class="alert alert-danger" role="alert">
-                  {{.}}
-                </div>
-            {{/messages.error}}
             <form method="POST" action="/login/">
               <div class="form-group">
                 <label for="username-input">Username</label>
@@ -46,7 +41,12 @@
                 <input type="password" id="password-input" name="password" class="form-control" />
               </div>
               <button type="submit" class="btn btn-primary">Login</button>
-            </form>
+            </form><br>
+            {{#status}}
+            <div class="alert alert-danger" role="alert">
+              {{.}}
+            </div>
+            {{/status}}
           </div>
         </div>
       </div>

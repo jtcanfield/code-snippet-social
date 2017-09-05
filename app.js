@@ -94,18 +94,13 @@ const loginRedirect = function (req, res, next) {
 }
 const requireLogin = function (req, res, next) {
   if (req.user) {
-    User.findById(req.user._id, function (err, userdocs) {
-      console.log(userdocs.sessionID);
-    })
-    console.log(req.user.sessionID);
-    console.log(req.sessionID);
     next()
   } else {
     res.redirect('/login/');
   }
 }
 const checkLogin = function (req, res, next) {
-  if (req.user) {
+  if (req.sessionID === req.user.sessionID) {
     next()
   } else {
     res.redirect('/login/');
@@ -209,7 +204,7 @@ app.post('/addasnip', function(req, res, next) {
             notes: req.body.notes,
             language: req.body.language,
             privacy: req.body.privacy,
-            tags: req.body.tags,//Need to seperate tags into array
+            tags: req.body.tags,
             user: req.user._id
           })
           const error = user.validateSync();
@@ -219,7 +214,7 @@ app.post('/addasnip', function(req, res, next) {
               })
           }
           user.save(function(err) {
-              return res.redirect('/');
+              return res.redirect('/profile');
           })
       })
 });
@@ -253,15 +248,10 @@ app.get('/snippetview:dynamic', function(req, res) {
     })
   })
 });
-app.get('/edit:dynamic', requireLogin, function(req, res) {
+app.get('/edit:dynamic', checkLogin, function(req, res) {
   Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
-    User.findById(snippetdocs.user, function (err, userdocs) {
-      // passport.authenticate('local', function(err, user, info) {
-      //   if (err) {  return res.redirect("/login"); }
-      //   if (!user) { return res.redirect("/login");  }
-      //   return res.redirect('/profile');
-      // })
-    })
+    console.log(snippetdocs);
+    res.redirect('back');
   })
 });
 

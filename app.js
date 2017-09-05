@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
 app.use(expressValidator());
-app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 60000, httpOnly: false}}));
+app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 600000, httpOnly: false}}));
 // app.use(session({
 //     secret: 'keyboard cat',
 //     resave: false,
@@ -75,16 +75,12 @@ app.use(passport.session());
 app.use(flash());
 app.use(function (req, res, next) {
   res.locals.user = req.user;
-  if (res.locals.user !== undefined){
-      console.log(res.locals.user._id);
-  }
   next();
 })
 
 // MongoClient.connect(mongoURL, function (err, db) {
 //     const uzerlist = db.collection("users");
 //     uzerlist.find({ username: { $eq: "jtdude100" } }).toArray(function (err, docs) {
-//       console.log(docs)
 //     // res.render("profile", {stats:JSON.stringify(docs)});
 //     })
 //   })
@@ -230,8 +226,7 @@ app.get('/logout', function(req, res) {
 
 
 app.get("/:dynamic", function (req, res) {
-  console.log("DYNAMIC TRIGGERED:")
-  console.log(req.params.dynamic);
+  console.log("DYNAMIC TRIGGERED: " + req.params.dynamic)
   res.render('404');
 });
 process.env.PORT || 5000

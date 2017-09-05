@@ -17,23 +17,37 @@
     <div class="container" style="margin-top: 2rem">
       <div class="row">
         <div class="col">
-          <h1>Profile of {{profilename}}</h2>
-          {{#user}}
+          <div id="topbarwrapper">
             <h1>
-              You are logged in as {{username}}.
-              <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a></small>
+            {{#user}}
+              <span>You are logged in as {{username}}</span>
+              <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a> | <a href="/profile/">View Profile</a></small>
+            {{/user}}
+            {{^user}}
+              <span>You are not logged in</span>
+              <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
+            {{/user}}
             </h1>
-          {{/user}}
-          {{^user}}
-          <h1>
-            You are not logged in.
-            <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
-          </h1>
-          {{/user}}
-          <div id="profilesnippets">
-          {{#snippetlist}}
-            {{.}}
-          {{/snippetlist}}
+          </div>
+          <div id="profilebody" class="bodypage">
+            <h1>Profile of {{profilename}}</h2>
+            {{#user}}
+              <h1>
+                You are logged in as {{username}}.
+                <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a></small>
+              </h1>
+            {{/user}}
+            {{^user}}
+            <h1>
+              You are not logged in.
+              <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
+            </h1>
+            {{/user}}
+            <div id="profilesnippets">
+            {{#snippetlist}}
+              {{.}}
+            {{/snippetlist}}
+            </div>
           </div>
         </div>
       </div>

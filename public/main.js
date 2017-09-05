@@ -30,7 +30,7 @@ if (profilepage !== null){
   newliteral.setAttribute("class", "personalsnips");
   arrayOfSnips.map((obj, index) => {
     let holder = `
-      <h2>Title: ${obj.title}</h2>
+      <a href="/snippetview${obj._id}/"><h2>Title: ${obj.title}</h2></a>
       <h3>Notes: ${obj.notes}</h3>
       <h4>Snippet: ${obj.codesnippet}</h4>
       <h5>Language: ${obj.language}</h5>

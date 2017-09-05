@@ -18,18 +18,18 @@
       <div class="row">
         <div class="col">
           <h1>Welcome to Snip!</h2>
-          {{#user}}
+          <div class="topbar">
             <h1>
-              You are logged in as {{username}}.<br>
+            {{#user}}
+              <span>You are logged in as {{username}}</span>
               <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a> | <a href="/profile/">View Profile</a></small>
+            {{/user}}
+            {{^user}}
+              <span>You are not logged in</span>
+              <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
+            {{/user}}
             </h1>
-          {{/user}}
-          {{^user}}
-          <h1>
-            You are not logged in.<br>
-            <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
-          </h1>
-          {{/user}}
+          </div>
         </div>
       </div>
     </div>

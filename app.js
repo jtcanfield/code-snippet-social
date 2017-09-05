@@ -100,8 +100,12 @@ const requireLogin = function (req, res, next) {
   }
 }
 const checkLogin = function (req, res, next) {
-  if (req.sessionID === req.user.sessionID) {
-    next()
+  if (req.user) {
+    if (req.sessionID === req.user.sessionID) {
+      return next()
+    } else {
+      return res.redirect('/login/');
+    }
   } else {
     res.redirect('/login/');
   }
@@ -250,8 +254,7 @@ app.get('/snippetview:dynamic', function(req, res) {
 });
 app.get('/edit:dynamic', checkLogin, function(req, res) {
   Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
-    console.log(snippetdocs);
-    res.redirect('back');
+    res.render('editasnip', {snippet:snippetdocs});
   })
 });
 

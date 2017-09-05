@@ -14,9 +14,9 @@
         <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
       </h1>
       {{/user}}
-      <p class="lead">
-        <a href="/secret/">Go to secret page.</a>
-      </p>
+      {{#snippetlist}}
+      <p>{{.}}</p>
+      {{/snippetlist}}
     </div>
   </div>
 </div>

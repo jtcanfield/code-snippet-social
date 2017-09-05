@@ -42,7 +42,6 @@ app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 600000, ht
 //         expire: 86400 // optional
 //     })
 // }));
-console.log(Date())
 passport.use(new LocalStrategy(
     function(username, password, done) {
         User.authenticate(username, password, function(err, user) {
@@ -233,8 +232,7 @@ app.get('/profile:dynamic', function(req, res) {
     const snippets = db.collection("snippets");
     users.find({username:{$eq: req.params.dynamic}}).toArray(function (err, userdocs) {
       snippets.find({user:{$eq: String(userdocs[0]._id)}}).toArray(function (err, snippetdocs) {
-        console.log(snippetdocs);
-        return res.render('profile', {profilename:userdocs[0].username});
+        return res.render('profile', {profilename:userdocs[0].username, snippetlist:JSON.stringify(snippetdocs)});
       })
     })
   })

@@ -3,7 +3,7 @@
  	<head>
  		<meta charset="utf-8">
  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
- 		<title>{{snippet.title}} by {{author}}</title>
+ 		<title>{{snippet.title}}{{#author}} by {{.}}{{/author}}</title>
  		<meta name="description" content=" " />
  		<meta name="author" content=" " />
  		<meta name="HandheldFriendly" content="true" />
@@ -30,13 +30,18 @@
             </h1>
           </div>
           <div id="snippetviewbody" class="bodypage">
-            <h1>{{snippet.title}} by {{author}}</h1>
+            <h1>{{snippet.title}}{{#author}} by {{.}}{{/author}}</h1>
             <div id="specificsnippets">
             {{#snippetJSON}}
               {{.}}
             {{/snippetJSON}}
           </div><br>
-            <a href="/profile{{author}}/">Go to {{author}}'s page</a>
+            {{#author}}
+              <a href="/profile{{author}}/">Go to {{author}}'s page</a>
+            {{/author}}
+            {{^author}}
+              <a href="/edit{{snippet.id}}/">Edit this Snippet</a>
+            {{/author}}
           </div>
         </div>
       </div>

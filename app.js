@@ -210,13 +210,6 @@ app.post('/addasnip', function(req, res, next) {
               return res.redirect('/');
           })
       })
-  // MongoClient.connect(mongoURL, function (err, db) {
-  //   const users = db.collection("users");
-  //   users.updateOne({username:{$eq: user.username}}, {$set: {sessionID:req.sessionID}}, function (err, docs) {
-  //   req.logIn(user, function() {});//NEEDS TO BE USED IN ORDER TO USE REQ.USER
-  //   return res.redirect('/');
-  //   })
-  // })
 });
 app.get('/logout', function(req, res) {
   req.logout();
@@ -240,7 +233,11 @@ app.get('/profile:dynamic', function(req, res) {
 app.get('/snippetview:dynamic', function(req, res) {
   Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
     User.findById(snippetdocs.user, function (err, userdocs) {
-      return res.render('snippetview', {author:userdocs.username, snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
+      if (req.user !== undefined && req.user.username === userdocs.username){
+        return res.render('snippetview', {snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
+      } else {
+        return res.render('snippetview', {author:userdocs.username, snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
+      }
     })
   })
 });

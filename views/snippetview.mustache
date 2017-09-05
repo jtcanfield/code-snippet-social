@@ -3,7 +3,7 @@
  	<head>
  		<meta charset="utf-8">
  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
- 		<title>{{profilename}}'s Profile</title>
+ 		<title>{{#snippet.title}} by {{username}}</title>
  		<meta name="description" content=" " />
  		<meta name="author" content=" " />
  		<meta name="HandheldFriendly" content="true" />
@@ -29,12 +29,12 @@
             {{/user}}
             </h1>
           </div>
-          <div id="profilebody" class="bodypage">
-            <h1>Profile of {{profilename}}</h2>
+          <div id="snippetviewbody" class="bodypage">
+            <h1>{{#snippet.title}} by {{username}}</h1>
             <div id="profilesnippets">
-            {{#snippetlist}}
+            {{#snippet}}
               {{.}}
-            {{/snippetlist}}
+            {{/snippet}}
             </div>
           </div>
         </div>

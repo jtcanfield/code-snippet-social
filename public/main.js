@@ -29,20 +29,18 @@ if (profilepage !== null){
   var newliteral = document.createElement("div");
   newliteral.setAttribute("class", "personalsnips");
   arrayOfSnips.map((obj, index) => {
-    console.log(index)
-    console.log(obj)
+    let holder = `
+      <h2>Title: ${obj.title}</h2>
+      <h3>Notes: ${obj.notes}</h3>
+      <h4>Snippet: ${obj.codesnippet}</h4>
+      <h5>Language: ${obj.language}</h5>
+      <h5>Created: ${obj.createdAt}</h5>
+      <h5>Updated: ${obj.updatedAt}</h5>
+      <h5>Tags: ${obj.tags}</h5>
+    `;
+    newliteral.innerHTML += holder;
   })
-  // let holder = `
-  //   <h1>${jsonObject.username}</h1>
-  //   <div>
-  //     <span>Games: ${jsonObject.games}</span><span>Wins: ${jsonObject.wins}</span><span>Losses: ${jsonObject.losses}</span>
-  //   </div>
-  //   <p>Avg Word Length: ${(jsonObject.wordlengths.reduce((a,b) => a+b, 0))/jsonObject.wordlengths.length}</p>
-  //   <p>Avg Time: ${timecalc((jsonObject.times.reduce((a,b) => a+b, 0))/jsonObject.times.length)}</p>
-  //   <h3>Game History:</h3>
-  // `;
-  // newliteral.innerHTML = holder;
-  // profilepage.appendChild(newliteral);
+  profilepage.appendChild(newliteral);
 }
 
 

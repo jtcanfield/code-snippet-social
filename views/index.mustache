@@ -33,6 +33,10 @@
           </div>
           <div id="indexbody" class="bodypage">
             <h1>Welcome to Snip!</h1>
+            {{#publicsnippets}}
+            <p>{{title}}</p>
+            <a href="/profileredirect{{user}}/">Go to Author's page</a>
+            {{/publicsnippets}}
           </div>
         </div>
       </div>

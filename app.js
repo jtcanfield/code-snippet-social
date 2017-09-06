@@ -108,7 +108,9 @@ const checkLogin = function (req, res, next) {
 }
 
 app.get('/', function(req, res) {
-    res.render("index");
+  Snippet.find({privacy:"public"}, function (err, snippetdocs) {
+    res.render("index", {publicsnippets:snippetdocs});
+  })
 })
 app.get('/login/', function(req, res) {
     res.render("login", {messages: res.locals.getMessages()});
@@ -205,7 +207,8 @@ app.post('/addasnip', requireLogin, checkLogin, function(req, res, next) {
             language: req.body.language,
             privacy: req.body.privacy,
             tags: req.body.tags.split(","),
-            user: req.user._id
+            user: req.user._id,
+            authorname: req.user.username
           })
           const error = user.validateSync();
           if (error) {

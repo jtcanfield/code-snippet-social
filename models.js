@@ -77,6 +77,10 @@ const snippetSchema = new mongoose.Schema({
     user: {
         type: String,
         required: true
+    },
+    authorname: {
+        type: String,
+        required: true
     }
 },{timestamps: true});
 const Snippet = mongoose.model('Snippet', snippetSchema);

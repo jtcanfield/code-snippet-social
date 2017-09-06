@@ -34,8 +34,9 @@
           <div id="indexbody" class="bodypage">
             <h1>Welcome to Snip!</h1>
             {{#publicsnippets}}
-            <p><a href="/profile{{author}}/">{{author}}</a> updated a snip!
-            <br><a href="/snippetview{{_id}}/">{{title}}</a></p>
+            <p><a href="/profile{{authorname}}/">{{authorname}}</a> updated a snip titled:
+            <br><a href="/snippetview{{_id}}/">{{title}}</a>
+            <br>Notes: {{notes}}</p>
             {{/publicsnippets}}
           </div>
         </div>

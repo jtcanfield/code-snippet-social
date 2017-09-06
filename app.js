@@ -250,15 +250,22 @@ app.get('/snippetview:dynamic', function(req, res) {
 });
 app.get('/edit:dynamic', requireLogin, checkLogin, function(req, res) {
   Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
-    res.render("editasnip", {
-        snippetdocs: snippetdocs,
-        title: snippetdocs.title,
-        codesnippet: snippetdocs.codesnippet,
-        notes: snippetdocs.notes,
-        language: snippetdocs.language,
-        privacy: snippetdocs.privacy,
-        tags: snippetdocs.tags.join()
-    });
+    User.findById(snippetdocs.user, function (err, userdocs) {
+      //Checks if user is defined, check if loggedin user id/sessionID is the same as the userdoc id/sessionID, checks if the snippets id is the same as the userdocs id
+      if (req.user !== undefined && String(req.user._id) === userdocs.id && req.user.sessionID === userdocs.sessionID && snippetdocs.user === userdocs.id){
+        return res.render("editasnip", {
+            snippetdocs: snippetdocs,
+            title: snippetdocs.title,
+            codesnippet: snippetdocs.codesnippet,
+            notes: snippetdocs.notes,
+            language: snippetdocs.language,
+            privacy: snippetdocs.privacy,
+            tags: snippetdocs.tags.join()
+        });
+      } else {
+        return res.redirect("/logout");
+      }
+    })
   })
 });
 app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next) {
@@ -273,7 +280,6 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
     })
   })
   //NEED TO CHECK BOTH ID AND FULL OBJECT
-  /*
   req.checkBody('title', 'Please Title your snip!').notEmpty();
   req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
   req.checkBody('language', 'What language is this?').notEmpty();
@@ -299,8 +305,7 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
           //   privacy: req.body.privacy,
           //   tags: req.body.tags.split(","),
           //   user: req.user._id
-          // }) NEED TO UPDATE HERE. ALSO NEEDS TO RECHECK USER _ID AND SNIPPET _ID
-          // req.sessionID === req.user.sessionID && req.sessionID === req.user.sessionID
+          // })
           const error = user.validateSync();
           if (error) {
               return res.render("editasnip", {
@@ -314,7 +319,7 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
           // user.save(function(err) {
           //     return res.redirect('/profile');
           // })
-      })*/
+      })
 });
 
 app.get("/:dynamic", function (req, res) {

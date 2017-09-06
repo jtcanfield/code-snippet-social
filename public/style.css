@@ -38,6 +38,10 @@ h1, h2{
 }
 #topbarwrapper img{
   float: left;
+  height: 42px;
+  width: 42px;
+  background-image: url("/favicon.ico");
+  background-size: contain;
 }
 #topbarwrapper small{
   color: white;

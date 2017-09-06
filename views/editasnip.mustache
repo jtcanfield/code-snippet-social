@@ -31,8 +31,8 @@
           </div>
           <div id="editasnipbody" class="bodypage">
             <h1>Edit </h1>
-            <h2>{{snippet}}</h2>
-            <h2>{{snippet.title}}</h2>
+            <h2>{{title}}</h2>
+            <p class="hidden" hidden>{{snippetdocs}}</p>
             <form method="POST" action="/editasnip{{snippetdocs._id}}/">
               <div class="form-group{{#errors.title}} has-danger{{/errors.title}}">
                 <label class="form-control-label" for="title-input">Title:</label><br>

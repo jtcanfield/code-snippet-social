@@ -261,7 +261,8 @@ app.get('/edit:dynamic', requireLogin, checkLogin, function(req, res) {
     });
   })
 });
-app.post('/editasnip', requireLogin, checkLogin, function(req, res, next) {
+app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next) {
+  //NEED TO CHECK BOTH ID AND FULL OBJECT
   req.checkBody('title', 'Please Title your snip!').notEmpty();
   req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
   req.checkBody('language', 'What language is this?').notEmpty();
@@ -269,6 +270,7 @@ app.post('/editasnip', requireLogin, checkLogin, function(req, res, next) {
       .then(function(result) {
           if (!result.isEmpty()) {
               return res.render("editasnip", {
+                  snippetdocs: req.body.snippetdocs,
                   title: req.body.title,
                   codesnippet: req.body.codesnippet,
                   notes: req.body.notes,

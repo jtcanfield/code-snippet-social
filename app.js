@@ -262,7 +262,18 @@ app.get('/edit:dynamic', requireLogin, checkLogin, function(req, res) {
   })
 });
 app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next) {
+  Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
+    User.findById(snippetdocs.user, function (err, userdocs) {
+      //Checks if user is defined, check if loggedin user id/sessionID is the same as the userdoc id/sessionID, checks if the snippets id is the same as the userdocs id
+      if (req.user !== undefined && String(req.user._id) === userdocs.id && req.user.sessionID === userdocs.sessionID && snippetdocs.user === userdocs.id){
+        console.log("everything matches");
+      } else {
+        console.log("IT DOES NOT MATCH");
+      }
+    })
+  })
   //NEED TO CHECK BOTH ID AND FULL OBJECT
+  /*
   req.checkBody('title', 'Please Title your snip!').notEmpty();
   req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
   req.checkBody('language', 'What language is this?').notEmpty();
@@ -296,14 +307,6 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
                   errors: normalizeMongooseErrors(error.errors)
               })
           }
-          Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
-            User.findById(snippetdocs.user, function (err, userdocs) {
-              if (req.user !== undefined && req.user.username === userdocs.username){
-                return res.render('snippetview', {snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
-              } else {
-                return res.render('snippetview', {author:userdocs.username, snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
-              }
-            })
           Tank.update({ _id: id }, { $set: { size: 'large' }}, function(err) {
               return res.redirect('/profile');
           })
@@ -311,7 +314,7 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
           // user.save(function(err) {
           //     return res.redirect('/profile');
           // })
-      })
+      })*/
 });
 
 app.get("/:dynamic", function (req, res) {

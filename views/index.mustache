@@ -34,8 +34,8 @@
           <div id="indexbody" class="bodypage">
             <h1>Welcome to Snip!</h1>
             {{#publicsnippets}}
-            <p>{{title}}</p>
-            <a href="/profileredirect{{user}}/">Go to Author's page</a>
+            <p><a href="/profile{{author}}/">{{author}}</a> updated a snip!
+            <br><a href="/snippetview{{_id}}/">{{title}}</a></p>
             {{/publicsnippets}}
           </div>
         </div>

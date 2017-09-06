@@ -36,6 +36,9 @@ h1, h2{
 #topbarwrapper span{
   float: left;
 }
+#topbarwrapper img{
+  float: left;
+}
 #topbarwrapper small{
   color: white;
 }

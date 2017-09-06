@@ -21,12 +21,12 @@
             <h1>
             {{#user}}
               <span>You are logged in as {{username}}</span>
-              <a href="/"><img><!-- <img src="/favicon.ico" height="42" width="42"> --></a>
+              <a class="centered" href="/"><img><!-- <img src="/favicon.ico" height="42" width="42"> --></a>
               <small><a href="/addasnip/">Add a new Snippet!</a> | <a href="/logout/">Logout</a> | <a href="/profile/">View Profile</a></small>
             {{/user}}
             {{^user}}
               <span>You are not logged in</span>
-              <a href="/"><img><!-- <img src="/favicon.ico" height="42" width="42"> --></a>
+              <a class="centered" href="/"><img><!-- <img src="/favicon.ico" height="42" width="42"> --></a>
               <small><a href="/login/">Login</a> | <a href="/signup/">Register</a></small>
             {{/user}}
             </h1>

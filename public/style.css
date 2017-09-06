@@ -36,8 +36,18 @@ h1, h2{
 #topbarwrapper span{
   float: left;
 }
+.centered{
+  position: absolute;
+  display: block;
+  text-align: center !important;
+  /*margin: 0 auto;*/
+  width: 100%;
+}
 #topbarwrapper img{
-  float: left;
+  /*position: absolute;*/
+  /*display: inline-block;*/
+  /*margin: 0 auto;*/
+  /*text-align: center !important;*/
   height: 42px;
   width: 42px;
   background-image: url("/favicon.ico");

@@ -296,7 +296,7 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
                     language: req.body.language,
                     privacy: req.body.privacy,
                     tags: req.body.tags.split(",")
-                }}, function(err) {
+                  }}, function(err) {
                     return res.redirect('/profile');
                 })
             })

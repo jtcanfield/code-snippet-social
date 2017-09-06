@@ -251,6 +251,7 @@ app.get('/snippetview:dynamic', function(req, res) {
 app.get('/edit:dynamic', requireLogin, checkLogin, function(req, res) {
   Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
     res.render("editasnip", {
+        snippetdocs: snippetdocs,
         title: snippetdocs.title,
         codesnippet: snippetdocs.codesnippet,
         notes: snippetdocs.notes,
@@ -267,7 +268,7 @@ app.post('/editasnip', requireLogin, checkLogin, function(req, res, next) {
   req.getValidationResult()
       .then(function(result) {
           if (!result.isEmpty()) {
-              return res.render("addasnip", {
+              return res.render("editasnip", {
                   title: req.body.title,
                   codesnippet: req.body.codesnippet,
                   notes: req.body.notes,
@@ -286,15 +287,28 @@ app.post('/editasnip', requireLogin, checkLogin, function(req, res, next) {
           //   tags: req.body.tags.split(","),
           //   user: req.user._id
           // }) NEED TO UPDATE HERE. ALSO NEEDS TO RECHECK USER _ID AND SNIPPET _ID
+          // req.sessionID === req.user.sessionID && req.sessionID === req.user.sessionID
           const error = user.validateSync();
           if (error) {
-              return res.render("addasnip", {
+              return res.render("editasnip", {
                   errors: normalizeMongooseErrors(error.errors)
               })
           }
-          user.save(function(err) {
+          Snippet.findById(req.params.dynamic, function (err, snippetdocs) {
+            User.findById(snippetdocs.user, function (err, userdocs) {
+              if (req.user !== undefined && req.user.username === userdocs.username){
+                return res.render('snippetview', {snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
+              } else {
+                return res.render('snippetview', {author:userdocs.username, snippet:snippetdocs, snippetJSON:JSON.stringify(snippetdocs)});
+              }
+            })
+          Tank.update({ _id: id }, { $set: { size: 'large' }}, function(err) {
               return res.redirect('/profile');
           })
+
+          // user.save(function(err) {
+          //     return res.redirect('/profile');
+          // })
       })
 });
 

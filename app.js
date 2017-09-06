@@ -42,6 +42,12 @@ app.use(session({ secret: 'this-is-a-secret-token', cookie: { maxAge: 600000, ht
 //         expire: 86400 // optional
 //     })
 // }));
+// MongoClient.connect(mongoURL, function (err, db) {
+//     const uzerlist = db.collection("users");
+//     uzerlist.find({ username: { $eq: "jtdude100" } }).toArray(function (err, docs) {
+//     // res.render("profile", {stats:JSON.stringify(docs)});
+//     })
+//   })
 passport.use(new LocalStrategy(
     function(username, password, done) {
         User.authenticate(username, password, function(err, user) {
@@ -77,13 +83,6 @@ app.use(function (req, res, next) {
   res.locals.user = req.user;
   next();
 })
-
-// MongoClient.connect(mongoURL, function (err, db) {
-//     const uzerlist = db.collection("users");
-//     uzerlist.find({ username: { $eq: "jtdude100" } }).toArray(function (err, docs) {
-//     // res.render("profile", {stats:JSON.stringify(docs)});
-//     })
-//   })
 const loginRedirect = function (req, res, next) {
   if (req.user) {
     res.redirect('/');
@@ -170,7 +169,6 @@ app.post('/signup/', function(req, res) {
             })
         })
 });
-
 function normalizeMongooseErrors(errors) {
     Object.keys(errors).forEach(function(key) {
         errors[key].message = errors[key].msg;
@@ -234,9 +232,15 @@ app.get('/profile:dynamic', function(req, res) {
     const users = db.collection("users");
     const snippets = db.collection("snippets");
     users.find({username:{$eq: req.params.dynamic}}).toArray(function (err, userdocs) {
-      snippets.find({user:{$eq: String(userdocs[0]._id)}}).toArray(function (err, snippetdocs) {
-        return res.render('profile', {profilename:userdocs[0].username, snippetlist:JSON.stringify(snippetdocs)});
-      })
+      if (req.user !== undefined && String(req.user._id) === String(userdocs[0]._id) && req.user.sessionID === userdocs[0].sessionID){
+        snippets.find({user:{$eq: String(userdocs[0]._id)}}).toArray(function (err, snippetdocs) {
+          return res.render('profile', {profilename:userdocs[0].username, snippetlist:JSON.stringify(snippetdocs)});
+        })
+      } else {
+        snippets.find({user:{$eq: String(userdocs[0]._id)}, privacy:{$eq: "public"}}).toArray(function (err, snippetdocs) {
+          return res.render('profile', {profilename:userdocs[0].username, snippetlist:JSON.stringify(snippetdocs)});
+        })
+      }
     })
   })
 });
@@ -310,7 +314,12 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
   })
   //NEED TO CHECK BOTH ID AND FULL OBJECT
 });
-
+app.post('/search', function(req, res) {
+  Snippet.find(req.body.search, function (err, snippetdocs) {
+    console.log(snippetdocs)
+    return res.redirect('back');
+  })
+});
 app.get("/:dynamic", function (req, res) {
   console.log("DYNAMIC TRIGGERED: " + req.params.dynamic)
   res.render('404');

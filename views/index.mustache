@@ -33,6 +33,13 @@
           </div>
           <div id="indexbody" class="bodypage">
             <h1>Welcome to Snip!</h1>
+            <form method="POST" action="/search/">
+              <div class="form-group">
+                <label for="search-input">Search</label>
+                <input type="text" id="search-input" name="search" class="form-control" />
+              </div><br>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form><br>
             {{#publicsnippets}}
             <p><a href="/profile{{authorname}}/">{{authorname}}</a> updated a snip titled:
             <br><a href="/snippetview{{_id}}/">{{title}}</a>

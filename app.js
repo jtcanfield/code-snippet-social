@@ -312,7 +312,6 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
       }
     })
   })
-  //NEED TO CHECK BOTH ID AND FULL OBJECT
 });
 app.post('/search', function(req, res) {
   Snippet.find(req.body.search, function (err, snippetdocs) {

@@ -273,53 +273,39 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
     User.findById(snippetdocs.user, function (err, userdocs) {
       //Checks if user is defined, check if loggedin user id/sessionID is the same as the userdoc id/sessionID, checks if the snippets id is the same as the userdocs id
       if (req.user !== undefined && String(req.user._id) === userdocs.id && req.user.sessionID === userdocs.sessionID && snippetdocs.user === userdocs.id){
-        console.log("everything matches");
+        req.checkBody('title', 'Please Title your snip!').notEmpty();
+        req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
+        req.checkBody('language', 'What language is this?').notEmpty();
+        req.getValidationResult()
+            .then(function(result) {
+                if (!result.isEmpty()) {
+                    return res.render("editasnip", {
+                        snippetdocs: req.body.snippetdocs,
+                        title: req.body.title,
+                        codesnippet: req.body.codesnippet,
+                        notes: req.body.notes,
+                        language: req.body.language,
+                        privacy: req.body.privacy,
+                        tags: req.body.tags,
+                        errors: result.mapped()
+                    });
+                }
+                Snippet.update({ _id: req.params.dynamic }, { $set: { title: req.body.title,
+                    codesnippet: req.body.codesnippet,
+                    notes: req.body.notes,
+                    language: req.body.language,
+                    privacy: req.body.privacy,
+                    tags: req.body.tags.split(",")
+                }}, function(err) {
+                    return res.redirect('/profile');
+                })
+            })
       } else {
-        console.log("IT DOES NOT MATCH");
+        return res.redirect("/logout");
       }
     })
   })
   //NEED TO CHECK BOTH ID AND FULL OBJECT
-  req.checkBody('title', 'Please Title your snip!').notEmpty();
-  req.checkBody('codesnippet', 'You need a Snippet to submit a Snip!').notEmpty();
-  req.checkBody('language', 'What language is this?').notEmpty();
-  req.getValidationResult()
-      .then(function(result) {
-          if (!result.isEmpty()) {
-              return res.render("editasnip", {
-                  snippetdocs: req.body.snippetdocs,
-                  title: req.body.title,
-                  codesnippet: req.body.codesnippet,
-                  notes: req.body.notes,
-                  language: req.body.language,
-                  privacy: req.body.privacy,
-                  tags: req.body.tags,
-                  errors: result.mapped()
-              });
-          }
-          // const user = new Snippet({
-          //   title: req.body.title,
-          //   codesnippet: req.body.codesnippet,
-          //   notes: req.body.notes,
-          //   language: req.body.language,
-          //   privacy: req.body.privacy,
-          //   tags: req.body.tags.split(","),
-          //   user: req.user._id
-          // })
-          const error = user.validateSync();
-          if (error) {
-              return res.render("editasnip", {
-                  errors: normalizeMongooseErrors(error.errors)
-              })
-          }
-          Tank.update({ _id: id }, { $set: { size: 'large' }}, function(err) {
-              return res.redirect('/profile');
-          })
-
-          // user.save(function(err) {
-          //     return res.redirect('/profile');
-          // })
-      })
 });
 
 app.get("/:dynamic", function (req, res) {

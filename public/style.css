@@ -40,9 +40,11 @@ h1, h2{
   position: absolute;
   display: block;
   text-align: center !important;
+  pointer-events: none;
   width: 100%;
 }
 #topbarwrapper img{
+  pointer-events: auto !important;
   height: 42px;
   width: 42px;
   background-image: url("/favicon.ico");

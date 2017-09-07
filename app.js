@@ -319,7 +319,7 @@ app.get('/search', function(req, res) {
 app.post('/search', function(req, res) {
   Snippet.find({$or: [{title:{$regex: new RegExp(req.body.search, "i")}}, {authorname:{$regex: new RegExp(req.body.search, "i")}}, {tags:{$regex: new RegExp(req.body.search, "i")}}], privacy:{$eq: "public"}}, function (err, snippetdocs) {
     console.log(snippetdocs)
-    return res.render('back');
+    return res.render('search', {snippetsearch:snippetdocs});
   })
 });
 app.get("/:dynamic", function (req, res) {

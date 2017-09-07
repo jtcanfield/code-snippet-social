@@ -46,11 +46,11 @@
               </select><br>
               <button type="submit" class="btn btn-primary">Search</button>
             </form><br>
-            {{#publicsnippets}}
+            {{#snippetsearch}}
             <p><a href="/profile{{authorname}}/">{{authorname}}</a> updated a snip titled:
             <br><a href="/snippetview{{_id}}/">{{title}}</a>
             <br>Notes: {{notes}}</p>
-            {{/publicsnippets}}
+            {{/snippetsearch}}
           </div>
         </div>
       </div>

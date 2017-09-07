@@ -320,7 +320,6 @@ app.post('/search', function(req, res) {
   if (req.body.range === "personal"){
     if (req.user !== undefined){
       Snippet.find({$or: [{title:{$regex: new RegExp(req.body.search, "i")}}, {authorname:{$regex: new RegExp(req.body.search, "i")}}, {tags:{$regex: new RegExp(req.body.search, "i")}}], user:{$eq: req.user._id}}, function (err, snippetdocs) {
-        console.log(snippetdocs)
         return res.render('search', {snippetsearch:snippetdocs});
       })
       return
@@ -330,7 +329,6 @@ app.post('/search', function(req, res) {
     return
   } else {
     Snippet.find({$or: [{title:{$regex: new RegExp(req.body.search, "i")}}, {authorname:{$regex: new RegExp(req.body.search, "i")}}, {tags:{$regex: new RegExp(req.body.search, "i")}}], privacy:{$eq: "public"}}, function (err, snippetdocs) {
-      console.log(snippetdocs)
       return res.render('search', {snippetsearch:snippetdocs});
     })
   }

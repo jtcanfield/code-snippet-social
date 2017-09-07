@@ -40,9 +40,11 @@
               </div><br>
               <label class="form-control-label" for="range-select">Search Range:</label><br>
               <select id="range-select" name="range">
-                <option value="personal">Personal</option>
-                <option value="friends">Friends</option>
                 <option value="public">Site Wide</option>
+                {{#user}}
+                <option value="friends">Friends</option>
+                <option value="personal">Personal</option>
+                {{/user}}
               </select><br>
               <button type="submit" class="btn btn-primary">Search</button>
             </form><br>

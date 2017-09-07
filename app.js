@@ -317,10 +317,24 @@ app.get('/search', function(req, res) {
   res.render('search');
 });
 app.post('/search', function(req, res) {
-  Snippet.find({$or: [{title:{$regex: new RegExp(req.body.search, "i")}}, {authorname:{$regex: new RegExp(req.body.search, "i")}}, {tags:{$regex: new RegExp(req.body.search, "i")}}], privacy:{$eq: "public"}}, function (err, snippetdocs) {
-    console.log(snippetdocs)
-    return res.render('search', {snippetsearch:snippetdocs});
-  })
+  console.log(typeof req.body.range);
+  if (req.body.range === "personal"){
+    if (req.user !== undefined){
+      Snippet.find({$or: [{title:{$regex: new RegExp(req.body.search, "i")}}, {authorname:{$regex: new RegExp(req.body.search, "i")}}, {tags:{$regex: new RegExp(req.body.search, "i")}}], user:{$eq: req.user._id}}, function (err, snippetdocs) {
+        console.log(snippetdocs)
+        return res.render('search', {snippetsearch:snippetdocs});
+      })
+      return
+    } else {
+      return res.redirect("/login")
+    }
+    return
+  } else {
+    Snippet.find({$or: [{title:{$regex: new RegExp(req.body.search, "i")}}, {authorname:{$regex: new RegExp(req.body.search, "i")}}, {tags:{$regex: new RegExp(req.body.search, "i")}}], privacy:{$eq: "public"}}, function (err, snippetdocs) {
+      console.log(snippetdocs)
+      return res.render('search', {snippetsearch:snippetdocs});
+    })
+  }
 });
 app.get("/:dynamic", function (req, res) {
   console.log("DYNAMIC TRIGGERED: " + req.params.dynamic)

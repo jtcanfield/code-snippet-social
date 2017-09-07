@@ -314,7 +314,7 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
   })
 });
 app.post('/search', function(req, res) {
-  Snippet.find(req.body.search, function (err, snippetdocs) {
+  Snippet.find({$or: [{title:req.body.search}, {authorname:req.body.search}, {tags:req.body.search}],privacy:{$eq: "public"}}, function (err, snippetdocs) {
     console.log(snippetdocs)
     return res.redirect('back');
   })

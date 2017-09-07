@@ -313,10 +313,13 @@ app.post('/editasnip:dynamic', requireLogin, checkLogin, function(req, res, next
     })
   })
 });
+app.get('/search', function(req, res) {
+  res.render('search');
+});
 app.post('/search', function(req, res) {
-  Snippet.find({$or: [{title:req.body.search}, {authorname:req.body.search}, {tags:req.body.search}],privacy:{$eq: "public"}}, function (err, snippetdocs) {
+  Snippet.find({$or: [{title:{$regex: new RegExp(req.body.search, "i")}}, {authorname:{$regex: new RegExp(req.body.search, "i")}}, {tags:{$regex: new RegExp(req.body.search, "i")}}], privacy:{$eq: "public"}}, function (err, snippetdocs) {
     console.log(snippetdocs)
-    return res.redirect('back');
+    return res.render('back');
   })
 });
 app.get("/:dynamic", function (req, res) {
